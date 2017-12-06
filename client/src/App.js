@@ -8,12 +8,18 @@ class App extends Component {
 
     this.state = { podcasts: [] }
 
-    this.podcastSearch('')  // Initial search on page load
+    this.podcastSearch('syntax')  // Initial search on page load
   }
 
   podcastSearch(term) {
-    // iTunes API logic here
-    console.log(term);
+    // https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
+    /*    iTunes Search API logic here    */
+    fetch(`https://itunes.apple.com/search?media=podcast&term=${term}`)
+      .then(response => response.json())
+      .then(data=> {
+        this.setState({podcasts: data.results})
+        console.log(this.state.podcasts);
+      })
   }
 
   render() {
@@ -24,3 +30,15 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+/*
+
+Highlights by country
+`https://itunes.apple.com/${country}/rss/toppodcasts/limit=25/json`
+
+Podcast feed
+`https://itunes.apple.com/lookup?id=${id}`
+
+*/
