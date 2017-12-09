@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SearchBox from './components/SearchBox'
+import ResultsBox from './components/ResultsBox'
 import './App.css';
 
 class App extends Component {
@@ -9,7 +10,7 @@ class App extends Component {
     this.state = { podcasts: [] }
 
     this.podcastSearch('syntax')  // Initial search on page load
-  }
+   }
 
   podcastSearch(term) {
     // https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
@@ -19,12 +20,16 @@ class App extends Component {
       .then(data=> {
         this.setState({podcasts: data.results})
         console.log(this.state.podcasts);
-      })
+      });
   }
+
 
   render() {
     return (
-      <SearchBox onSearchTermChange={term => this.podcastSearch(term)} />
+      <div>
+        <SearchBox onSearchTermChange={term => this.podcastSearch(term)} />
+        <ResultsBox>{this.state.podcasts}</ResultsBox>
+      </div>
     );
   }
 }
