@@ -7,28 +7,29 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { podcasts: [] }
+    this.state = { podcasts: ["first test"] }
 
-    this.podcastSearch('syntax')  // Initial search on page load
-   }
-
+    this.podcastSearch('comedy')  // Initial search on page load
+    //setTimeout( this.podcastSearch('comedy'), 6000);
+  
+  }
+  
   podcastSearch(term) {
     // https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
     /*    iTunes Search API logic here    */
-    fetch(`https://itunes.apple.com/search?media=podcast&term=${term}`)
+    fetch(`https://itunes.apple.com/search?media=podcast&term=${term}&limit=5`)
       .then(response => response.json())
       .then(data=> {
         this.setState({podcasts: data.results})
-        console.log(this.state.podcasts);
+        //console.log(this.state.podcasts);
       });
   }
-
 
   render() {
     return (
       <div>
         <SearchBox onSearchTermChange={term => this.podcastSearch(term)} />
-        <ResultsBox>{this.state.podcasts}</ResultsBox>
+        <ResultsBox {...this.state}></ResultsBox>
       </div>
     );
   }
